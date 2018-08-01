@@ -2,8 +2,11 @@ package com.junittest.demo.service;
 
 import com.junittest.demo.domin.User;
 import com.junittest.demo.mapper.UserMapper;
+import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -15,6 +18,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.equalTo;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Matchers.anyInt;
@@ -29,6 +33,8 @@ public class UserServiceTest {
     private UserMapper userMapper;
     @InjectMocks
     private UserService userServiceImpl;
+    @Rule
+    public ExpectedException thrown = ExpectedException.none();
     @Before
     public void init(){
         MockitoAnnotations.initMocks(this);
@@ -42,5 +48,10 @@ public class UserServiceTest {
 //                .willReturn(mockuser);
         User user =  userServiceImpl.getUserById(1);
         assertThat(user.getName(),equalTo("lisi"));
+        try {
+            userServiceImpl.getUserById(1);
+        } catch (Exception e) {
+            Assert.assertThat(e.getMessage(), containsString("正在执行切换操作"));
+        }
     }
 }
