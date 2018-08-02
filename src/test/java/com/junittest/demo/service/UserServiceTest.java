@@ -39,7 +39,7 @@ public class UserServiceTest {
     public void init(){
         MockitoAnnotations.initMocks(this);
     }
-    @Test
+    @Test // (expected = Exception.class)  等同于thrown
     public void testModelServiceServiceImpl(){
         User mockuser = new User();
         mockuser.setName("lisi");
@@ -48,10 +48,8 @@ public class UserServiceTest {
 //                .willReturn(mockuser);
         User user =  userServiceImpl.getUserById(1);
         assertThat(user.getName(),equalTo("lisi"));
-        try {
-            userServiceImpl.getUserById(1);
-        } catch (Exception e) {
-            Assert.assertThat(e.getMessage(), containsString("正在执行切换操作"));
-        }
+        thrown.expectMessage("正在执行切换操作");
+        thrown.expect(Exception.class);
+        userServiceImpl.getUserById(1);
     }
 }
