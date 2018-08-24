@@ -99,6 +99,8 @@ public class UserResourceTests {
 * @WebMvcTest
 测试Spring MVC controllers是不是按正常情况运行。
 该注解被限制为一个单一的controller，需要利用@MockBean去Mock合作者（如service）。
+该注释只会在应用的controller层加载，只会扫描@Controller/ @RestController注释并且不会加载全部上下文，如果有依赖比如service
+层的东西，需要手动去mock这些对象。
 
 ```java
 @RunWith(SpringRunner.class)
@@ -219,3 +221,5 @@ fail()
 参考5 : [Using Spring Boot @SpyBean](https://shekhargulati.com/2017/07/20/using-spring-boot-spybean/)
 
 参考6 : [使用JUnit测试预期异常](https://blog.csdn.net/tayanxunhua/article/details/20570457)
+
+参考7 : [controller层测试](https://springbootdev.com/2018/02/22/spring-boot-test-writing-unit-tests-for-the-controller-layers-with-webmvctest/)
